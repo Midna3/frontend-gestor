@@ -1,9 +1,15 @@
-import React from 'react';
-import Home from './pages/Home';
+import { globalStyles } from './stitches.config';
+import { Header } from './components/Header/Header';
+import { SchoolPage } from './pages/SchoolPage/SchoolPage';
 
 function App() {
+  globalStyles();
+
   return (
-    <Home/>
+    <>
+      <Header />
+      <SchoolPage />
+    </>
   );
 }
 
