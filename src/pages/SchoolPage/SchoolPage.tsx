@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { LineChart } from '../../components/LineChart/LineChart';
+import 'react-circular-progressbar/dist/styles.css';
+
 import {
   container,
   statistics,
