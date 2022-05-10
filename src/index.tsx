@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { MapContextProvider } from './contexts/MapContext';
 
 import App from './App';
 
@@ -8,6 +9,8 @@ const root = createRoot(rootElement as Element);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <MapContextProvider>
+      <App />
+    </MapContextProvider>
   </React.StrictMode>
 );
