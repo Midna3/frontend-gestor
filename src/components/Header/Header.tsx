@@ -1,9 +1,20 @@
 import React from 'react';
+import { Flex } from '../Flex/Flex';
+import dashboardIcon from '../../assets/icons/dashboard.png';
 
 export const Header = () => {
   return (
-    <div style={{ backgroundColor: 'black', width: '100%', height: 97 }}>
-      ALOW
-    </div>
+    <Flex
+      align={'center'}
+      css={{
+        margin: '0 3rem',
+        height: 60,
+        '@sm': {
+          margin: '0 1rem',
+        },
+      }}
+    >
+      <img src={dashboardIcon} alt="Ícone para HomePage" />
+    </Flex>
   );
 };
