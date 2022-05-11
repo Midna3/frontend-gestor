@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { MapContextProvider } from './contexts/MapContext';
 
@@ -9,8 +10,10 @@ const root = createRoot(rootElement as Element);
 
 root.render(
   <React.StrictMode>
-    <MapContextProvider>
-      <App />
-    </MapContextProvider>
+    <BrowserRouter>
+      <MapContextProvider>
+        <App />
+      </MapContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
