@@ -1,13 +1,13 @@
 import React from 'react';
 import { dataCard, icon } from './style';
 
-interface IProps {
+export type DataProp = {
   background: string;
   title: string;
   data: string;
-}
+};
 
-export const DataCard = (props: IProps) => {
+export const DataCard = (props: DataProp) => {
   const { background, title, data } = props;
 
   return (
