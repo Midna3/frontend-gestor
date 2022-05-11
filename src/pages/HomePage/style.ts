@@ -1,11 +1,10 @@
 import { css } from '../../stitches.config';
 
-export const container = css({
+export const info = css({
   display: 'flex',
   flexDirection: 'column',
   gap: 47,
   padding: '50px',
-  backgroundColor: '#F1F4FA',
   fontSize: '20px',
   color: '#383874',
   height: '680px',
@@ -22,3 +21,8 @@ export const enrolledStudents = css({
 });
 
 export const dataBox = css({});
+
+export const map = css({
+  width: '900px',
+  height: '900px',
+});

@@ -17,8 +17,6 @@ export const enrolledStudents = css({
   },
 });
 
-export const dataBox = css({});
-
 export const dataCard = css({
   display: 'flex',
   gap: 26,

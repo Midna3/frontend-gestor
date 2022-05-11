@@ -1,4 +1,5 @@
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 import { circleGraph, graphBox, percent } from './style';
 
@@ -39,7 +40,13 @@ export default (props: IProps) => {
           </div>
         </CircularProgressbarWithChildren>
       </div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
         <span>{numericalData}</span>
         <p>{title}</p>
       </div>

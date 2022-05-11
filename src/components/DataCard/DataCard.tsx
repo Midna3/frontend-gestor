@@ -1,5 +1,5 @@
 import React from 'react';
-import { dataCard, dataBox, icon } from './style';
+import { dataCard, icon } from './style';
 
 interface IProps {
   background: string;
@@ -13,7 +13,13 @@ export default (props: IProps) => {
   return (
     <div className={dataCard()}>
       <div className={icon()} style={{ backgroundColor: `${background}` }} />
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
         <p style={{ fontWeight: 'bold' }}>{title}</p>
         <p>{data}</p>
       </div>
