@@ -1,19 +1,6 @@
-import {
-  CircularProgressbar,
-  CircularProgressbarWithChildren,
-} from 'react-circular-progressbar';
 import CircleGraphBox from '../../components/CircleGraphBox/CircleGraphBox';
 import DataCard from '../../components/DataCard/DataCard';
-import {
-  container,
-  dataCard,
-  icon,
-  dataBox,
-  enrolledStudents,
-  circleGraph,
-  graphBox,
-  percent,
-} from './style';
+import { container, dataBox, enrolledStudents } from './style';
 
 export const HomePage = () => {
   return (
