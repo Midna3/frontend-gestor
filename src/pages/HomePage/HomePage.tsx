@@ -31,7 +31,7 @@ export const HomePage = () => {
           display: 'flex',
           gap: 21,
           flexDirection: 'row',
-          padding: '95px 0px 0px 0px',
+          padding: '30px 0px 0px 0px',
         }}
       >
         <CircleGraphBox
