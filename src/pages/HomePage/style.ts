@@ -20,8 +20,6 @@ export const enrolledStudents = css({
   },
 });
 
-export const dataBox = css({});
-
 export const map = css({
   width: '900px',
   height: '900px',
