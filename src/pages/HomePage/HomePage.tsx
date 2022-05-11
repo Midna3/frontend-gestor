@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { CircleGraphBox } from '../../components/CircleGraphBox/CircleGraphBox';
 import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
-import { info, dataBox, enrolledStudents, map } from './style';
+import { info, enrolledStudents, map } from './style';
 
 export const HomePage = () => {
   const [data, setData] = useState<any>(null);
@@ -23,7 +23,7 @@ export const HomePage = () => {
           </div>
         </div>
 
-        <div className={dataBox()}>
+        <div>
           <DataCard background="#8676FF" title="Média Ideb" data="xxx,xxx" />
           <DataCard
             background="#66C8FF"
