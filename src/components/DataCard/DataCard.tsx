@@ -7,7 +7,7 @@ interface IProps {
   data: string;
 }
 
-export default (props: IProps) => {
+export const DataCard = (props: IProps) => {
   const { background, title, data } = props;
 
   return (

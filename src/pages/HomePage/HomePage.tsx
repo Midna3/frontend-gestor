@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CircleGraphBox from '../../components/CircleGraphBox/CircleGraphBox';
-import DataCard from '../../components/DataCard/DataCard';
+import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
 import { info, dataBox, enrolledStudents, map } from './style';
 
