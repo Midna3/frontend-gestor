@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { LineChart } from '../../components/LineChart/LineChart';
 import 'react-circular-progressbar/dist/styles.css';
@@ -19,6 +20,8 @@ import {
 import { Data } from '../../mocks/Data';
 
 export const SchoolPage = () => {
+  const params = useParams();
+
   const [data, setData] = useState({
     labels: Data.matriculados.map((matriculado) => matriculado.year),
     datasets: [
@@ -62,6 +65,7 @@ export const SchoolPage = () => {
   useEffect(() => {
     setValueStart(5.9);
     setValueFinish(10);
+    console.log(params.schoolId);
   }, []);
 
   return (
