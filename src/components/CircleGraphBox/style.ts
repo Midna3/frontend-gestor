@@ -32,3 +32,19 @@ export const icon = css({
   height: '70px',
   borderRadius: '20px',
 });
+
+export const graphBox = css({
+  display: 'flex',
+  gap: 18,
+  flexDirection: 'row',
+});
+
+export const circleGraph = css({
+  width: '90px',
+});
+
+export const percent = css({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});

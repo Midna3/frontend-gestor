@@ -2,6 +2,7 @@ import {
   CircularProgressbar,
   CircularProgressbarWithChildren,
 } from 'react-circular-progressbar';
+import CircleGraphBox from '../../components/CircleGraphBox/CircleGraphBox';
 import DataCard from '../../components/DataCard/DataCard';
 import {
   container,
@@ -46,63 +47,23 @@ export const HomePage = () => {
           padding: '95px 0px 0px 0px',
         }}
       >
-        <div className={graphBox()}>
-          <div className={circleGraph()}>
-            <CircularProgressbarWithChildren
-              value={27}
-              maxValue={100}
-              strokeWidth={5}
-              styles={{
-                text: {
-                  fontFamily: 'sans-serif',
-                  fill: '#023AFF',
-                  fontWeight: 500,
-                },
-                trail: { stroke: '#DBDFF1' },
-                path: {
-                  stroke: '#023AFF',
-                },
-              }}
-            >
-              <div className={percent()}>
-                <span>27%</span>
-              </div>
-            </CircularProgressbarWithChildren>
-          </div>
-          <div>
-            <span>92,980</span>
-            <p>Esforço docente</p>
-          </div>
-        </div>
+        <CircleGraphBox
+          value={27}
+          maxValue={100}
+          fillColor={'#023AFF'}
+          circleText={'27%'}
+          title={'Esforço docente'}
+          numericalData={92.98}
+        />
 
-        <div className={graphBox()}>
-          <div className={circleGraph()}>
-            <CircularProgressbarWithChildren
-              value={67}
-              maxValue={100}
-              strokeWidth={5}
-              styles={{
-                text: {
-                  fontFamily: 'sans-serif',
-                  fill: '#00B929',
-                  fontWeight: 500,
-                },
-                trail: { stroke: '#DBDFF1' },
-                path: {
-                  stroke: '#00B929',
-                },
-              }}
-            >
-              <div className={percent()}>
-                <span>67%</span>
-              </div>
-            </CircularProgressbarWithChildren>
-          </div>
-          <div>
-            <span>22,652</span>
-            <p>Regularidade docente</p>
-          </div>
-        </div>
+        <CircleGraphBox
+          value={67}
+          maxValue={100}
+          fillColor={'#00B929'}
+          circleText={'67%'}
+          title={'Regularidade docente'}
+          numericalData={22.652}
+        />
       </div>
     </div>
   );
