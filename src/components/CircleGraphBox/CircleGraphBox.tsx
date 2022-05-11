@@ -3,16 +3,16 @@ import 'react-circular-progressbar/dist/styles.css';
 
 import { circleGraph, graphBox, percent } from './style';
 
-interface IProps {
+export type DataProp = {
   value: number;
   maxValue: number;
   fillColor: string;
   circleText: string;
   title: string;
   numericalData: number;
-}
+};
 
-export default (props: IProps) => {
+export const CircleGraphBox = (props: DataProp) => {
   const { value, maxValue, fillColor, circleText, title, numericalData } =
     props;
 
