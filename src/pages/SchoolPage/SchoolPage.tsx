@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { LineChart } from '../../components/LineChart/LineChart';
 import 'react-circular-progressbar/dist/styles.css';
+import Location from '../../assets/icons/location.png';
 
 import {
   container,
@@ -86,7 +87,7 @@ export const SchoolPage = () => {
               <label>Endereço</label>
               <div>
                 Esquina com a Rua do Vazio
-                <img src="/Location.png" width={20} />
+                <img src={Location} alt="Icone de Endereço" width={20} />
               </div>
             </div>
             <div className={schoolDataDescription()}>

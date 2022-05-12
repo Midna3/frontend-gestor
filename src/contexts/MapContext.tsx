@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 
 type MapContextData = {
   regionState: string;
@@ -9,20 +9,18 @@ type MapContextProviderProps = {
   children: ReactNode;
 };
 
-const MapContext = React.createContext({} as MapContextData);
+const MapContext = createContext({} as MapContextData);
 
 export const MapContextProvider = ({ children }: MapContextProviderProps) => {
-  const [regionState, setRegionState] = useState('BR');
+  const [regionState, setRegionState] = useState('brazil');
 
   function changeMap(region: string) {
-    if (region == regionState) {
-      setRegionState('BR');
-      console.log('Requisita para BR');
+    if (region === regionState) {
+      setRegionState('brazil');
       return;
     }
 
     setRegionState(region);
-    console.log(`Requisita para ${region}`);
   }
 
   return (

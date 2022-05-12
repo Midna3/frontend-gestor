@@ -2,19 +2,75 @@ import { useEffect, useState } from 'react';
 import { CircleGraphBox } from '../../components/CircleGraphBox/CircleGraphBox';
 import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
+import { Map } from '../../components/Map/Map';
 import { info, enrolledStudents, map } from './style';
+import { useContext } from 'react';
+import MapContext from '../../contexts/MapContext';
+import { api } from '../../services/api';
+
+type Infos = {
+  data: {
+    type: string;
+    id: number;
+    attributes: {
+      ied: {
+        meanCategory: string;
+        mean: number;
+      };
+      ird: {
+        meanCategory: string;
+        mean: number;
+      };
+      tdi: {
+        mean: number;
+      };
+      icg: {
+        meanCategory: string;
+        mean: number;
+      };
+      afd: {
+        meanCategory: string;
+        mean: number;
+      };
+      idebIniciais: {
+        mean: number;
+        projection: number;
+      };
+      idebFinais: {
+        mean: number;
+        projection: number;
+      };
+      year: number;
+      country: string;
+    };
+  };
+};
 
 export const HomePage = () => {
-  const [data, setData] = useState<any>(null);
+  const { regionState } = useContext(MapContext);
+  const [infos, setInfos] = useState<Infos | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/home/country/brazil')
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }, [data]);
+    (async function () {
+      let url =
+        regionState === 'brazil'
+          ? `home/country/${regionState}`
+          : `home/region/${regionState}`;
+
+      console.log(url);
+      const { data } = await api.get(url);
+      setInfos(data);
+      console.log(data);
+    })();
+  }, [regionState]);
 
   return (
-    <Flex direction={'row'} style={{ backgroundColor: '#F1F4FA' }}>
+    <Flex
+      direction={'row'}
+      style={{ backgroundColor: '#F1F4FA' }}
+      align="center"
+      justify="between"
+    >
       <div className={info()}>
         <div className="infoBox">
           <div className={enrolledStudents()}>
@@ -64,7 +120,9 @@ export const HomePage = () => {
           />
         </div>
       </div>
-      <div className={map()}></div>
+      <div className={map()}>
+        <Map />
+      </div>
     </Flex>
   );
 };
