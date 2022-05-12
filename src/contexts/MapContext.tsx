@@ -12,17 +12,15 @@ type MapContextProviderProps = {
 const MapContext = createContext({} as MapContextData);
 
 export const MapContextProvider = ({ children }: MapContextProviderProps) => {
-  const [regionState, setRegionState] = useState('BR');
+  const [regionState, setRegionState] = useState('brazil');
 
   function changeMap(region: string) {
     if (region === regionState) {
-      setRegionState('BR');
-      console.log('Requisita para BR');
+      setRegionState('brazil');
       return;
     }
 
     setRegionState(region);
-    console.log(`Requisita para ${region}`);
   }
 
   return (
