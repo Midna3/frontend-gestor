@@ -5,6 +5,6 @@ export const container = css({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: 242,
+  gap: 100,
   padding: '50px 60px',
 });
