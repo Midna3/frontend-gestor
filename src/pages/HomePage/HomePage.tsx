@@ -8,9 +8,47 @@ import { useContext } from 'react';
 import MapContext from '../../contexts/MapContext';
 import { api } from '../../services/api';
 
+type Infos = {
+  data: {
+    type: string;
+    id: number;
+    attributes: {
+      ied: {
+        meanCategory: string;
+        mean: number;
+      };
+      ird: {
+        meanCategory: string;
+        mean: number;
+      };
+      tdi: {
+        mean: number;
+      };
+      icg: {
+        meanCategory: string;
+        mean: number;
+      };
+      afd: {
+        meanCategory: string;
+        mean: number;
+      };
+      idebIniciais: {
+        mean: number;
+        projection: number;
+      };
+      idebFinais: {
+        mean: number;
+        projection: number;
+      };
+      year: number;
+      country: string;
+    };
+  };
+};
+
 export const HomePage = () => {
   const { regionState } = useContext(MapContext);
-  const [infos, setInfos] = useState<any>(null);
+  const [infos, setInfos] = useState<Infos | null>(null);
 
   useEffect(() => {
     (async function () {
