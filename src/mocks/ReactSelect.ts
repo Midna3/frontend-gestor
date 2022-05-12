@@ -1,20 +1,15 @@
-export type ColourOption = {
+export type Option = {
   readonly value: string;
   readonly label: string;
-  readonly color: string;
-  readonly isFixed?: boolean;
-  readonly isDisabled?: boolean;
 };
 
-export const colourOptions: readonly ColourOption[] = [
-  { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-  { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-  { value: 'purple', label: 'Purple', color: '#5243AA' },
-  { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-  { value: 'orange', label: 'Orange', color: '#FF8B00' },
-  { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-  { value: 'green', label: 'Green', color: '#36B37E' },
-  { value: 'forest', label: 'Forest', color: '#00875A' },
-  { value: 'slate', label: 'Slate', color: '#253858' },
-  { value: 'silver', label: 'Silver', color: '#666666' },
+export const schoolOptions: readonly Option[] = [
+  { value: '1', label: 'Estrelinha do Sol' },
+  { value: '2', label: 'O pequeno Infanti' },
+  { value: '3', label: 'Abracadabra' },
+  { value: '4', label: 'Castelinho Encantado' },
+  {
+    value: '5',
+    label: 'Escola Leal de Bragança',
+  },
 ];
