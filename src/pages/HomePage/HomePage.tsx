@@ -10,7 +10,7 @@ import { api } from '../../services/api';
 
 export const HomePage = () => {
   const { regionState } = useContext(MapContext);
-  const [data, setData] = useState<any>(null);
+  const [infos, setInfos] = useState<any>(null);
 
   useEffect(() => {
     (async function () {
@@ -19,9 +19,10 @@ export const HomePage = () => {
           ? `home/country/${regionState}`
           : `home/region/${regionState}`;
 
-      const { data } = await api.get(url);
-      setData(data);
       console.log(url);
+      const { data } = await api.get(url);
+      setInfos(data);
+      console.log(data);
     })();
   }, [regionState]);
 
