@@ -87,7 +87,7 @@ export const SchoolPage = () => {
               <label>Endereço</label>
               <div>
                 Esquina com a Rua do Vazio
-                <img src={Location} width={20} />
+                <img src={Location} alt="Icone de Endereço" width={20} />
               </div>
             </div>
             <div className={schoolDataDescription()}>
