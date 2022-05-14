@@ -4,6 +4,7 @@ import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { LineChart } from '../../components/LineChart/LineChart';
 import 'react-circular-progressbar/dist/styles.css';
 import Location from '../../assets/icons/location.png';
+import { api } from '../../services/api';
 
 import {
   container,
@@ -20,15 +21,54 @@ import {
 
 import { Data } from '../../mocks/Data';
 
+type Infos = {
+  data: {
+    type: string;
+    id: 1;
+    attributes: {
+      name: string;
+      inep: number;
+      address: string;
+      ddd: string;
+      phone: string;
+      matriculas: number | null;
+      docentes: number | null;
+      year: number;
+      adm: string;
+      idebIniciais: {
+        mean: number;
+        projection: number;
+      };
+      idebFinais: {
+        mean: number;
+        projection: number;
+      };
+      ied: {
+        meanCategory: string;
+        mean: number;
+      };
+      icg: {
+        meanCategory: string;
+        mean: number;
+      };
+      afd: {
+        meanCategory: string;
+        mean: number;
+      };
+    };
+  };
+};
+
 export const SchoolPage = () => {
   const params = useParams();
 
-  const [data, setData] = useState({
-    labels: Data.matriculados.map((matriculado) => matriculado.year),
+  const [infos, setInfos] = useState<Infos | null>(null);
+  const [dataGraph, setDataGraph] = useState({
+    labels: [2017, 2018, 2019],
     datasets: [
       {
         label: 'Matriculas',
-        data: Data.matriculados.map((matriculado) => matriculado.amount),
+        data: [0, 0, 0],
         backgroundColor: '#2D2FF0',
         lineTension: 0.5,
         borderColor: '#2D2FF0',
@@ -43,7 +83,7 @@ export const SchoolPage = () => {
       },
       {
         label: 'Docentes',
-        data: Data.docentes.map((docente) => docente.amount),
+        data: [0, 0, 0],
         backgroundColor: '#E80054',
         lineTension: 0.5,
         borderColor: '#E80054',
@@ -59,44 +99,121 @@ export const SchoolPage = () => {
     ],
   });
 
-  const [valueStart, setValueStart] = useState(0);
-  const [valueFinish, setValueFinish] = useState(0);
-  const max = 10;
-
   useEffect(() => {
-    setValueStart(5.9);
-    setValueFinish(10);
+    (async function () {
+      try {
+        const { data } = await api.get(
+          `panel/school/${params.schoolId}?year=2019`
+        );
+        const d2018 = await api.get(
+          `panel/school/${params.schoolId}?year=2018`
+        );
+        const d2017 = await api.get(
+          `panel/school/${params.schoolId}?year=2017`
+        );
+
+        const years = [2017, 2018, 2019];
+        const matriculados = [
+          d2017.data.data.attributes.matriculas || 0,
+          d2018.data.data.attributes.matriculas || 0,
+          data.data.attributes.matriculas || 0,
+        ];
+
+        const docentes = [
+          d2017.data.data.attributes.docentes || 0,
+          d2018.data.data.attributes.docentes || 0,
+          data.data.attributes.docentes || 0,
+        ];
+        const newGraph = {
+          labels: years,
+          datasets: [
+            {
+              label: 'Matriculas',
+              data: matriculados,
+              backgroundColor: '#2D2FF0',
+              lineTension: 0.5,
+              borderColor: '#2D2FF0',
+              pointBorderColor: '#2D2FF0',
+              pointBorderWidth: 5,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: '#2D2FF0',
+              pointHoverBorderColor: '#2D2FF0',
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+            },
+            {
+              label: 'Docentes',
+              data: docentes,
+              backgroundColor: '#E80054',
+              lineTension: 0.5,
+              borderColor: '#E80054',
+              pointBorderColor: '#E80054',
+              pointBorderWidth: 5,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: '#E80054',
+              pointHoverBorderColor: '#E80054',
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+            },
+          ],
+        };
+        setDataGraph(newGraph);
+        setInfos(data);
+      } catch (error) {
+        console.log('ERRO');
+      }
+    })();
     console.log(params.schoolId);
-  }, []);
+  }, [params.schoolId]);
 
   return (
     <div className={container()} style={{ backgroundColor: '#F1F4FA' }}>
       <div className={info()}>
         <div className={schoolInfo()}>
-          <p>Escola Manoel Limão</p>
+          <p>{infos?.data.attributes.name || '----'}</p>
           <div className={schoolData()}>
             <div className={schoolDataDescription()}>
               <label>Código INEP</label>
-              <input type="text" value="#876370" disabled />
+              <input
+                type="text"
+                value={infos ? `#${infos?.data.attributes.inep}` : '----'}
+                disabled
+              />
             </div>
             <div className={schoolDataDescription()}>
               <label>Contato</label>
-              <input type="text" value="(81) 91628-1728" disabled />
+              <input
+                type="text"
+                value={
+                  infos
+                    ? `(${
+                        infos?.data.attributes.ddd
+                      }) ${infos?.data.attributes.phone.slice(
+                        0,
+                        4
+                      )}-${infos?.data.attributes.phone.slice(4, 8)}`
+                    : '----'
+                }
+                disabled
+              />
             </div>
             <div className={schoolDataDescription()}>
               <label>Endereço</label>
               <div>
-                Esquina com a Rua do Vazio
+                {infos?.data.attributes.address || '----'}
                 <img src={Location} alt="Icone de Endereço" width={20} />
               </div>
             </div>
-            <div className={schoolDataDescription()}>
+            <div className={schoolDataDescription()} style={{ width: '93%' }}>
               <label>Adm</label>
-              <input type="text" value="Estadual" disabled />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Modalidade</label>
-              <input type="text" value="Integral" disabled />
+              <input
+                style={{ width: '100%' }}
+                type="text"
+                value={infos?.data.attributes.adm || '----'}
+                disabled
+              />
             </div>
           </div>
         </div>
@@ -105,8 +222,8 @@ export const SchoolPage = () => {
           <div className={circles()}>
             <div className={idebCircle()}>
               <CircularProgressbarWithChildren
-                value={valueStart}
-                maxValue={max}
+                value={Number(infos?.data.attributes.idebIniciais.mean || 0)}
+                maxValue={10}
                 strokeWidth={12}
                 styles={{
                   text: {
@@ -121,7 +238,19 @@ export const SchoolPage = () => {
                 }}
               >
                 <div className={rating()}>
-                  5,9 <span>Meta 5,5</span>
+                  {infos
+                    ? Number(infos?.data.attributes.idebIniciais.mean).toFixed(
+                        1
+                      )
+                    : '--'}{' '}
+                  <span>
+                    Meta{' '}
+                    {infos
+                      ? Number(
+                          infos?.data.attributes.idebIniciais.projection
+                        ).toFixed(1)
+                      : ''}
+                  </span>
                 </div>
               </CircularProgressbarWithChildren>
               <p
@@ -139,8 +268,8 @@ export const SchoolPage = () => {
             </div>
             <div className={idebCircle()}>
               <CircularProgressbarWithChildren
-                value={valueFinish}
-                maxValue={max}
+                value={Number(infos?.data.attributes.idebFinais.mean || 0)}
+                maxValue={10}
                 strokeWidth={12}
                 styles={{
                   text: {
@@ -155,7 +284,17 @@ export const SchoolPage = () => {
                 }}
               >
                 <div className={rating()}>
-                  10 <span>Meta 8,5</span>
+                  {infos
+                    ? Number(infos?.data.attributes.idebFinais.mean).toFixed(1)
+                    : '--'}{' '}
+                  <span>
+                    Meta{' '}
+                    {infos
+                      ? Number(
+                          infos?.data.attributes.idebFinais.projection
+                        ).toFixed(1)
+                      : ''}
+                  </span>
                 </div>
               </CircularProgressbarWithChildren>
               <p
@@ -179,7 +318,7 @@ export const SchoolPage = () => {
         <h1>Matriculas e Docentes</h1>
         <div className={graph()}>
           <div style={{ width: '80%' }}>
-            <LineChart Data={data} />
+            <LineChart Data={dataGraph} />
           </div>
         </div>
       </div>
