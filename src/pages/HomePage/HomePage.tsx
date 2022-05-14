@@ -8,6 +8,8 @@ import { useContext } from 'react';
 import MapContext from '../../contexts/MapContext';
 import { api } from '../../services/api';
 
+import { HomeData } from '../../mocks/HomeData';
+
 type Infos = {
   data: {
     type: string;
@@ -41,7 +43,8 @@ type Infos = {
         projection: number;
       };
       year: number;
-      country: string;
+      country?: string;
+      region?: string;
     };
   };
 };
@@ -58,9 +61,16 @@ export const HomePage = () => {
           : `home/region/${regionState}`;
 
       console.log(url);
-      const { data } = await api.get(url);
-      setInfos(data);
-      console.log(data);
+      try {
+        const { data } = await api.get(url);
+        setInfos(HomeData);
+        console.log(HomeData);
+      } catch (error) {
+        console.log('ERRO');
+      } finally {
+        setInfos(HomeData);
+        console.log(HomeData);
+      }
     })();
   }, [regionState]);
 
@@ -80,16 +90,27 @@ export const HomePage = () => {
         </div>
 
         <div>
-          <DataCard background="#8676FF" title="Média Ideb" data="xxx,xxx" />
+          <DataCard
+            background="#8676FF"
+            title="Ideb Anos Iniciais"
+            data={
+              infos ? String(infos?.data.attributes.idebIniciais.mean) : '--'
+            }
+          />
+          <DataCard
+            background="#8676FF"
+            title="Ideb Anos Finais"
+            data={infos ? String(infos?.data.attributes.idebFinais.mean) : '--'}
+          />
           <DataCard
             background="#66C8FF"
             title="Distorção idade série"
-            data="500,65"
+            data={infos ? String(infos?.data.attributes.tdi.mean) : '--'}
           />
           <DataCard
             background="#FF9066"
             title="Complexidade gestão escolar"
-            data="48,430,039"
+            data={infos ? String(infos?.data.attributes.icg.mean) : '--'}
           />
         </div>
 
@@ -102,21 +123,35 @@ export const HomePage = () => {
           }}
         >
           <CircleGraphBox
-            value={27}
-            maxValue={100}
+            value={infos ? Number(infos?.data.attributes.ied.mean) : 0}
+            maxValue={6}
             fillColor={'#023AFF'}
-            circleText={'27%'}
+            circleText={
+              infos
+                ? `${(
+                    (Number(infos?.data.attributes.ied.mean) * 100) /
+                    6
+                  ).toFixed(1)}%`
+                : '--'
+            }
             title={'Esforço docente'}
-            numericalData={92.98}
+            numericalData={Number(infos?.data.attributes.ied.mean)}
           />
 
           <CircleGraphBox
-            value={67}
-            maxValue={100}
+            value={infos ? Number(infos?.data.attributes.ird.mean) : 0}
+            maxValue={4.5}
             fillColor={'#00B929'}
-            circleText={'67%'}
+            circleText={
+              infos
+                ? `${(
+                    (Number(infos?.data.attributes.ird.mean) * 100) /
+                    4.5
+                  ).toFixed(1)}%`
+                : '--'
+            }
             title={'Regularidade docente'}
-            numericalData={22.652}
+            numericalData={Number(infos?.data.attributes.ird.mean)}
           />
         </div>
       </div>
