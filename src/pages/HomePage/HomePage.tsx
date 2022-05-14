@@ -92,22 +92,24 @@ export const HomePage = () => {
           <DataCard
             background="#8676FF"
             title="Ideb Anos Iniciais"
-            data={String(infos?.data.attributes.idebIniciais.mean)}
+            data={
+              infos ? String(infos?.data.attributes.idebIniciais.mean) : '--'
+            }
           />
           <DataCard
             background="#8676FF"
             title="Ideb Anos Finais"
-            data={String(infos?.data.attributes.idebFinais.mean)}
+            data={infos ? String(infos?.data.attributes.idebFinais.mean) : '--'}
           />
           <DataCard
             background="#66C8FF"
             title="Distorção idade série"
-            data={String(infos?.data.attributes.tdi.mean)}
+            data={infos ? String(infos?.data.attributes.tdi.mean) : '--'}
           />
           <DataCard
             background="#FF9066"
             title="Complexidade gestão escolar"
-            data={String(infos?.data.attributes.icg.mean)}
+            data={infos ? String(infos?.data.attributes.icg.mean) : '--'}
           />
         </div>
 
@@ -120,25 +122,33 @@ export const HomePage = () => {
           }}
         >
           <CircleGraphBox
-            value={Number(infos?.data.attributes.ied.mean)}
+            value={infos ? Number(infos?.data.attributes.ied.mean) : 0}
             maxValue={6}
             fillColor={'#023AFF'}
-            circleText={`${(
-              (Number(infos?.data.attributes.ied.mean) * 100) /
-              6
-            ).toFixed(1)}%`}
+            circleText={
+              infos
+                ? `${(
+                    (Number(infos?.data.attributes.ied.mean) * 100) /
+                    6
+                  ).toFixed(1)}%`
+                : '--'
+            }
             title={'Esforço docente'}
             numericalData={Number(infos?.data.attributes.ied.mean)}
           />
 
           <CircleGraphBox
-            value={Number(infos?.data.attributes.ird.mean)}
+            value={infos ? Number(infos?.data.attributes.ird.mean) : 0}
             maxValue={4.5}
             fillColor={'#00B929'}
-            circleText={`${(
-              (Number(infos?.data.attributes.ird.mean) * 100) /
-              4.5
-            ).toFixed(1)}%`}
+            circleText={
+              infos
+                ? `${(
+                    (Number(infos?.data.attributes.ird.mean) * 100) /
+                    4.5
+                  ).toFixed(1)}%`
+                : '--'
+            }
             title={'Regularidade docente'}
             numericalData={Number(infos?.data.attributes.ird.mean)}
           />

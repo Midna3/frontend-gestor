@@ -9,7 +9,7 @@ export type DataProp = {
   fillColor: string;
   circleText: string;
   title: string;
-  numericalData: number;
+  numericalData: number | null;
 };
 
 export const CircleGraphBox = (props: DataProp) => {
@@ -47,7 +47,7 @@ export const CircleGraphBox = (props: DataProp) => {
           justifyContent: 'center',
         }}
       >
-        <span>{numericalData}</span>
+        <span>{numericalData ? numericalData : '--'}</span>
         <p>{title}</p>
       </div>
     </div>
