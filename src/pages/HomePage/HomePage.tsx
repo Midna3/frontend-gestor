@@ -60,16 +60,11 @@ export const HomePage = () => {
           ? `home/country/${regionState}`
           : `home/region/${regionState}`;
 
-      console.log(url);
       try {
         const { data } = await api.get(url);
-        setInfos(HomeData);
-        console.log(HomeData);
+        setInfos(data);
       } catch (error) {
         console.log('ERRO');
-      } finally {
-        setInfos(HomeData);
-        console.log(HomeData);
       }
     })();
   }, [regionState]);
