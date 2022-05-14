@@ -44,6 +44,7 @@ type Infos = {
       };
       year: number;
       country?: string;
+      region?: string;
     };
   };
 };
