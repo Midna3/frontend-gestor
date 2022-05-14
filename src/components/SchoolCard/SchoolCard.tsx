@@ -1,5 +1,6 @@
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import location from '../../assets/icons/location.png';
 
 import {
   info,
@@ -51,7 +52,7 @@ export const SchoolCard = (props: DataProp) => {
             <label>Endereço</label>
             <div>
               {adress}
-              <img src="/Location.png" width={20} />
+              <img src={location} width={20} />
             </div>
           </div>
           <div className={schoolDataDescription()}>
