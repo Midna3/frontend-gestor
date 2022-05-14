@@ -8,6 +8,8 @@ import { useContext } from 'react';
 import MapContext from '../../contexts/MapContext';
 import { api } from '../../services/api';
 
+import { HomeData } from '../../mocks/HomeData';
+
 type Infos = {
   data: {
     type: string;
