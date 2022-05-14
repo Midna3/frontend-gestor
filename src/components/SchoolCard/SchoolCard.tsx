@@ -13,9 +13,9 @@ import {
 } from './style';
 
 export type DataProp = {
-  schoolName: string;
-  inepID: string;
-  contact: string;
+  name: string;
+  inep: string;
+  phone: string;
   adress: string;
   adm: string;
   modality: string;
@@ -25,9 +25,9 @@ export type DataProp = {
 
 export const SchoolCard = (props: DataProp) => {
   const {
-    schoolName,
-    inepID,
-    contact,
+    name,
+    inep,
+    phone,
     adress,
     adm,
     modality,
@@ -38,15 +38,15 @@ export const SchoolCard = (props: DataProp) => {
   return (
     <div className={info()}>
       <div className={schoolInfo()}>
-        <p>{schoolName}</p>
+        <p>{name}</p>
         <div className={schoolData()}>
           <div className={schoolDataDescription()}>
             <label>Código INEP</label>
-            <input type="text" value={inepID} disabled />
+            <input type="text" value={inep} disabled />
           </div>
           <div className={schoolDataDescription()}>
             <label>Contato</label>
-            <input type="text" value={contact} disabled />
+            <input type="text" value={phone} disabled />
           </div>
           <div className={schoolDataDescription()}>
             <label>Endereço</label>
