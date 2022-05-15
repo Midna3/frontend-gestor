@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import MapContext from '../../contexts/MapContext';
 import { api } from '../../services/api';
 
-import { HomeData } from '../../mocks/HomeData';
+import graphIcon from '../../assets/icons/graph.png';
 
 type Infos = {
   data: {
@@ -88,6 +88,7 @@ export const HomePage = () => {
           <DataCard
             background="#8676FF"
             title="Ideb Anos Iniciais"
+            imageUrl={graphIcon}
             data={
               infos ? String(infos?.data.attributes.idebIniciais.mean) : '--'
             }
@@ -95,16 +96,19 @@ export const HomePage = () => {
           <DataCard
             background="#8676FF"
             title="Ideb Anos Finais"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.idebFinais.mean) : '--'}
           />
           <DataCard
             background="#66C8FF"
             title="Distorção idade série"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.tdi.mean) : '--'}
           />
           <DataCard
             background="#FF9066"
             title="Complexidade gestão escolar"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.icg.mean) : '--'}
           />
         </div>
