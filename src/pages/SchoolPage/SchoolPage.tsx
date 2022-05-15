@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { LineChart } from '../../components/LineChart/LineChart';
 import 'react-circular-progressbar/dist/styles.css';
@@ -17,6 +17,8 @@ import {
   circles,
   idebCircle,
   rating,
+  topInfo,
+  buttonArea,
 } from './style';
 
 import { Data } from '../../mocks/Data';
@@ -172,7 +174,14 @@ export const SchoolPage = () => {
     <div className={container()} style={{ backgroundColor: '#F1F4FA' }}>
       <div className={info()}>
         <div className={schoolInfo()}>
-          <p>{infos?.data.attributes.name || '----'}</p>
+          <div className={topInfo()}>
+            <p>{infos?.data.attributes.name || '----'}</p>
+            <div className={buttonArea()}>
+              <Link to="/school/comparison/:schoolId">
+                <span>comparar</span>
+              </Link>
+            </div>
+          </div>
           <div className={schoolData()}>
             <div className={schoolDataDescription()}>
               <label>Código INEP</label>

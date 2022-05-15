@@ -1,5 +1,6 @@
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import location from '../../assets/icons/location.png';
 
 import {
   info,
@@ -12,46 +13,44 @@ import {
 } from './style';
 
 export type DataProp = {
-  schoolName: string;
-  inepID: string;
-  contact: string;
+  name: string;
+  inep: string;
+  phone: string;
   adress: string;
   adm: string;
   modality: string;
-  idebFirstYear: number;
-  idebLastYear: number;
+  idebIniciais: {
+    mean: number;
+    projection: number;
+  };
+  idebFinais: {
+    mean: number;
+    projection: number;
+  };
 };
 
 export const SchoolCard = (props: DataProp) => {
-  const {
-    schoolName,
-    inepID,
-    contact,
-    adress,
-    adm,
-    modality,
-    idebFirstYear,
-    idebLastYear,
-  } = props;
+  const { name, inep, phone, adress, adm, modality, idebIniciais, idebFinais } =
+    props;
 
   return (
     <div className={info()}>
       <div className={schoolInfo()}>
-        <p>{schoolName}</p>
+        <p>{name}</p>
         <div className={schoolData()}>
           <div className={schoolDataDescription()}>
             <label>Código INEP</label>
-            <input type="text" value={inepID} disabled />
+            <input type="text" value={inep} disabled />
           </div>
           <div className={schoolDataDescription()}>
             <label>Contato</label>
-            <input type="text" value={contact} disabled />
+            <input type="text" value={phone} disabled />
           </div>
           <div className={schoolDataDescription()}>
             <label>Endereço</label>
             <div>
               {adress}
-              <img src="/Location.png" width={20} />
+              <img src={location} width={20} />
             </div>
           </div>
           <div className={schoolDataDescription()}>
@@ -69,7 +68,7 @@ export const SchoolCard = (props: DataProp) => {
         <div className={circles()}>
           <div className={idebCircle()}>
             <CircularProgressbarWithChildren
-              value={idebFirstYear}
+              value={idebIniciais.mean}
               maxValue={10}
               strokeWidth={12}
               styles={{
@@ -85,7 +84,7 @@ export const SchoolCard = (props: DataProp) => {
               }}
             >
               <div className={rating()}>
-                {idebFirstYear} <span>Meta 5,5</span>
+                {idebIniciais.mean} <span>Meta {idebIniciais.projection}</span>
               </div>
             </CircularProgressbarWithChildren>
             <p
@@ -103,7 +102,7 @@ export const SchoolCard = (props: DataProp) => {
           </div>
           <div className={idebCircle()}>
             <CircularProgressbarWithChildren
-              value={idebLastYear}
+              value={idebFinais.mean}
               maxValue={10}
               strokeWidth={12}
               styles={{
@@ -119,7 +118,7 @@ export const SchoolCard = (props: DataProp) => {
               }}
             >
               <div className={rating()}>
-                {idebLastYear} <span>Meta 8,5</span>
+                {idebFinais.mean} <span>Meta {idebFinais.projection}</span>
               </div>
             </CircularProgressbarWithChildren>
             <p
