@@ -170,7 +170,6 @@ export const SchoolComparison = () => {
           }
           adress={infos?.data.attributes.address || '----'}
           adm={infos?.data.attributes.adm || '----'}
-          modality={'Regular'}
           idebIniciais={{
             mean: infos?.data.attributes.idebIniciais.mean || 0,
             projection: infos?.data.attributes.idebIniciais.projection || 0,
@@ -198,7 +197,6 @@ export const SchoolComparison = () => {
           phone={'(81) 3229-6512'}
           adress={'Esquina com a casa de Satanás - Inferno'}
           adm={'Estadual'}
-          modality={'Ruim'}
           idebIniciais={{
             mean: 5,
             projection: 7,

@@ -30,6 +30,7 @@ export const { styled, css, keyframes } = createStitches({
       greenBrandZero: '#42A774',
       blackZero: '#0A1128',
       whiteZero: '#EDE7E3',
+      purple: '#2D2FF0',
     },
   },
   media: {

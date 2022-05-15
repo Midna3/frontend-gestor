@@ -12,6 +12,9 @@ export const schoolInfo = css({
   height: '410px',
   backgroundColor: 'white',
   borderRadius: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
 
   p: {
     fontWeight: 'bold',
@@ -47,6 +50,8 @@ export const schoolData = css({
   padding: '20px 0',
   display: 'flex',
   flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
   gap: '30px',
   flexWrap: 'wrap',
 });
