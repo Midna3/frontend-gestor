@@ -19,21 +19,19 @@ export type DataProp = {
   adress: string;
   adm: string;
   modality: string;
-  idebFirstYear: number;
-  idebLastYear: number;
+  idebIniciais: {
+    mean: number;
+    projection: number;
+  };
+  idebFinais: {
+    mean: number;
+    projection: number;
+  };
 };
 
 export const SchoolCard = (props: DataProp) => {
-  const {
-    name,
-    inep,
-    phone,
-    adress,
-    adm,
-    modality,
-    idebFirstYear,
-    idebLastYear,
-  } = props;
+  const { name, inep, phone, adress, adm, modality, idebIniciais, idebFinais } =
+    props;
 
   return (
     <div className={info()}>
@@ -70,7 +68,7 @@ export const SchoolCard = (props: DataProp) => {
         <div className={circles()}>
           <div className={idebCircle()}>
             <CircularProgressbarWithChildren
-              value={idebFirstYear}
+              value={idebIniciais.mean}
               maxValue={10}
               strokeWidth={12}
               styles={{
@@ -86,7 +84,7 @@ export const SchoolCard = (props: DataProp) => {
               }}
             >
               <div className={rating()}>
-                {idebFirstYear} <span>Meta 5,5</span>
+                {idebIniciais.mean} <span>Meta {idebIniciais.projection}</span>
               </div>
             </CircularProgressbarWithChildren>
             <p
@@ -104,7 +102,7 @@ export const SchoolCard = (props: DataProp) => {
           </div>
           <div className={idebCircle()}>
             <CircularProgressbarWithChildren
-              value={idebLastYear}
+              value={idebFinais.mean}
               maxValue={10}
               strokeWidth={12}
               styles={{
@@ -120,7 +118,7 @@ export const SchoolCard = (props: DataProp) => {
               }}
             >
               <div className={rating()}>
-                {idebLastYear} <span>Meta 8,5</span>
+                {idebFinais.mean} <span>Meta {idebFinais.projection}</span>
               </div>
             </CircularProgressbarWithChildren>
             <p
