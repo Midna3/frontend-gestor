@@ -68,8 +68,14 @@ export const SchoolComparison = () => {
         adress={infos?.data.attributes.address || '----'}
         adm={infos?.data.attributes.adm || '----'}
         modality={'Regular'}
-        idebFirstYear={infos?.data.attributes.idebIniciais.mean || 0}
-        idebLastYear={infos?.data.attributes.idebFinais.mean || 0}
+        idebIniciais={{
+          mean: infos?.data.attributes.idebIniciais.mean || 0,
+          projection: infos?.data.attributes.idebIniciais.projection || 0,
+        }}
+        idebFinais={{
+          mean: infos?.data.attributes.idebFinais.mean || 0,
+          projection: infos?.data.attributes.idebFinais.projection || 0,
+        }}
       />
 
       <SchoolCard
@@ -79,8 +85,14 @@ export const SchoolComparison = () => {
         adress={'Esquina com a casa de Satanás - Inferno'}
         adm={'Estadual'}
         modality={'Ruim'}
-        idebFirstYear={3.1}
-        idebLastYear={2.8}
+        idebIniciais={{
+          mean: 5,
+          projection: 7,
+        }}
+        idebFinais={{
+          mean: 3,
+          projection: 5,
+        }}
       />
     </div>
   );
