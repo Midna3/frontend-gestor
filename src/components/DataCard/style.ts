@@ -29,4 +29,7 @@ export const icon = css({
   width: '70px',
   height: '70px',
   borderRadius: '20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
