@@ -8,6 +8,19 @@ export const container = css({
   gap: 47,
   padding: '50px 60px',
 });
+export const topInfo = css({
+  fontWeight: 'bold',
+  color: '#2D2FF0',
+  display: 'table-row',
+  flexDirection: 'row',
+});
+
+export const buttonArea = css({
+  display: 'table-cell',
+  textAlign: 'right',
+  paddingLeft: '250px',
+  cursor: 'pointer',
+});
 
 export const statistics = css({
   padding: '32px 25px',
