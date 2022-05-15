@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { useParams } from 'react-router-dom';
 import { LineChart } from '../../components/LineChart/LineChart';
 import 'react-circular-progressbar/dist/styles.css';
-import Location from '../../assets/icons/location.png';
 import { api } from '../../services/api';
 
-import {
-  container,
-  statistics,
-  graph,
-  info,
-  schoolInfo,
-  schoolData,
-  schoolDataDescription,
-  circles,
-  idebCircle,
-  rating,
-  topInfo,
-  buttonArea,
-} from './style';
+import { container, statistics, graph } from './style';
 
 import { Data } from '../../mocks/Data';
+import { SchoolCard } from '../../components/SchoolCard/SchoolCard';
 
 type Infos = {
   data: {
@@ -172,155 +158,32 @@ export const SchoolPage = () => {
 
   return (
     <div className={container()} style={{ backgroundColor: '#F1F4FA' }}>
-      <div className={info()}>
-        <div className={schoolInfo()}>
-          <div className={topInfo()}>
-            <p>{infos?.data.attributes.name || '----'}</p>
-            <div className={buttonArea()}>
-              <Link to="/school/comparison/:schoolId">
-                <span>comparar</span>
-              </Link>
-            </div>
-          </div>
-          <div className={schoolData()}>
-            <div className={schoolDataDescription()}>
-              <label>Código INEP</label>
-              <input
-                type="text"
-                value={infos ? `#${infos?.data.attributes.inep}` : '----'}
-                disabled
-              />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Contato</label>
-              <input
-                type="text"
-                value={
-                  infos
-                    ? `(${
-                        infos?.data.attributes.ddd
-                      }) ${infos?.data.attributes.phone.slice(
-                        0,
-                        4
-                      )}-${infos?.data.attributes.phone.slice(4, 8)}`
-                    : '----'
-                }
-                disabled
-              />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Endereço</label>
-              <div>
-                {infos?.data.attributes.address || '----'}
-                <img src={Location} alt="Icone de Endereço" width={20} />
-              </div>
-            </div>
-            <div className={schoolDataDescription()} style={{ width: '93%' }}>
-              <label>Adm</label>
-              <input
-                style={{ width: '100%' }}
-                type="text"
-                value={infos?.data.attributes.adm || '----'}
-                disabled
-              />
-            </div>
-          </div>
-        </div>
-        <div className={schoolInfo({ variant: 'ideb' })}>
-          <p>IDEB</p>
-          <div className={circles()}>
-            <div className={idebCircle()}>
-              <CircularProgressbarWithChildren
-                value={Number(infos?.data.attributes.idebIniciais.mean || 0)}
-                maxValue={10}
-                strokeWidth={12}
-                styles={{
-                  text: {
-                    fontFamily: 'sans-serif',
-                    fill: '#3A36DB',
-                    fontWeight: 500,
-                  },
-                  trail: { stroke: '#fff' },
-                  path: {
-                    stroke: '#3A36DB',
-                  },
-                }}
-              >
-                <div className={rating()}>
-                  {infos
-                    ? Number(infos?.data.attributes.idebIniciais.mean).toFixed(
-                        1
-                      )
-                    : '--'}{' '}
-                  <span>
-                    Meta{' '}
-                    {infos
-                      ? Number(
-                          infos?.data.attributes.idebIniciais.projection
-                        ).toFixed(1)
-                      : ''}
-                  </span>
-                </div>
-              </CircularProgressbarWithChildren>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  color: '#06152B',
-                  marginTop: 10,
-                }}
-              >
-                Anos
-                <br />
-                Iniciais
-              </p>
-            </div>
-            <div className={idebCircle()}>
-              <CircularProgressbarWithChildren
-                value={Number(infos?.data.attributes.idebFinais.mean || 0)}
-                maxValue={10}
-                strokeWidth={12}
-                styles={{
-                  text: {
-                    fontFamily: 'sans-serif',
-                    fill: '#3A36DB',
-                    fontWeight: 500,
-                  },
-                  trail: { stroke: '#fff' },
-                  path: {
-                    stroke: '#3A36DB',
-                  },
-                }}
-              >
-                <div className={rating()}>
-                  {infos
-                    ? Number(infos?.data.attributes.idebFinais.mean).toFixed(1)
-                    : '--'}{' '}
-                  <span>
-                    Meta{' '}
-                    {infos
-                      ? Number(
-                          infos?.data.attributes.idebFinais.projection
-                        ).toFixed(1)
-                      : ''}
-                  </span>
-                </div>
-              </CircularProgressbarWithChildren>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  color: '#06152B',
-                  marginTop: 10,
-                }}
-              >
-                Anos
-                <br />
-                Finais
-              </p>
-            </div>
-          </div>
-        </div>
+      <div>
+        <SchoolCard
+          name={infos?.data.attributes.name || '----'}
+          compare
+          inep={infos ? `#${infos?.data.attributes.inep}` : '----'}
+          phone={
+            infos
+              ? `(${
+                  infos?.data.attributes.ddd
+                }) ${infos?.data.attributes.phone.slice(
+                  0,
+                  4
+                )}-${infos?.data.attributes.phone.slice(4, 8)}`
+              : '----'
+          }
+          adress={infos?.data.attributes.address || '----'}
+          adm={infos?.data.attributes.adm || '----'}
+          idebIniciais={{
+            mean: infos?.data.attributes.idebIniciais.mean || 0,
+            projection: infos?.data.attributes.idebIniciais.projection || 0,
+          }}
+          idebFinais={{
+            mean: infos?.data.attributes.idebFinais.mean || 0,
+            projection: infos?.data.attributes.idebFinais.projection || 0,
+          }}
+        />
       </div>
       <div className={statistics()}>
         <p>Estatisticas</p>
