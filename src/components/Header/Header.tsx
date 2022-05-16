@@ -1,35 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../../services/api';
 
 import { Flex } from '../Flex/Flex';
 import AsyncSelect from 'react-select/async';
-import { Option, schoolOptions } from '../../mocks/ReactSelect';
 
 import dashboardIcon from '../../assets/icons/dashboard.png';
 
+type Option = {
+  readonly value: string;
+  readonly label: string;
+};
+
+type Response = {
+  readonly data: {
+    readonly data: Option[];
+  };
+};
+
 export const Header = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = React.useState<Option | null>(
-    null
-  );
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
-  const filterColors = (inputValue: string) => {
-    return schoolOptions.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const loadOptions = async (inputValue: string) => {
+    const response: Response = await api.get(`/home/schools/${inputValue}`);
+    return response.data.data;
   };
 
-  const loadOptions = (
-    inputValue: string,
-    callback: (options: Option[]) => void
-  ) => {
-    setTimeout(() => {
-      callback(filterColors(inputValue));
-    }, 1000);
-  };
-
-  const handleInputChange = (newValue: string) => {
-    const inputValue = newValue.replace(/\W/g, '');
+  const handleInputChange = (inputValue: string) => {
     navigate(`/school/${inputValue}`);
   };
 
@@ -53,7 +51,6 @@ export const Header = () => {
       <AsyncSelect
         cacheOptions
         loadOptions={loadOptions}
-        defaultOptions
         value={selectedOption}
         onChange={(option: Option | null) => {
           handleInputChange(option?.value as string);
