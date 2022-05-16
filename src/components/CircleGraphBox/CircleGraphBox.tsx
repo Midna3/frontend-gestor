@@ -20,7 +20,7 @@ export const CircleGraphBox = (props: DataProp) => {
     <div className={graphBox()}>
       <div className={circleGraph()}>
         <CircularProgressbarWithChildren
-          value={value}
+          value={Number(value.toFixed(0))}
           maxValue={maxValue}
           strokeWidth={5}
           styles={{
@@ -47,7 +47,7 @@ export const CircleGraphBox = (props: DataProp) => {
           justifyContent: 'center',
         }}
       >
-        <span>{numericalData ? numericalData : '--'}</span>
+        <span>{numericalData ? Number(numericalData).toFixed(1) : '--'}</span>
         <p>{title}</p>
       </div>
     </div>
