@@ -77,13 +77,6 @@ export const HomePage = () => {
       justify="between"
     >
       <div className={info()}>
-        <div className="infoBox">
-          <div className={enrolledStudents()}>
-            <p>Estudantes matriculados esse ano</p>
-            <h1>16.431,430</h1>
-          </div>
-        </div>
-
         <div>
           <DataCard
             background="#8676FF"
