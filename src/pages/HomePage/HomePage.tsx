@@ -77,6 +77,21 @@ export const HomePage = () => {
       justify="between"
     >
       <div className={info()}>
+        <div className="infoBox">
+          <div className={enrolledStudents()}>
+            <h1>{`${
+              infos?.data.attributes.country !== undefined
+                ? infos?.data.attributes.country
+                : ''
+            }`}</h1>
+            <h1>{`${
+              infos?.data.attributes.region !== undefined
+                ? infos?.data.attributes.region
+                : ''
+            }`}</h1>
+          </div>
+        </div>
+
         <div>
           <DataCard
             background="#8676FF"
