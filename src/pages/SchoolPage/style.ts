@@ -6,14 +6,15 @@ export const container = css({
   justifyContent: 'center',
   alignItems: 'center',
   gap: 47,
-  padding: '50px 60px',
+  padding: '35px',
 });
 
 export const statistics = css({
+  overflowY: 'scroll',
   borderRadius: '10px',
-  padding: '32px 25px',
+  padding: '1rem 3rem',
   width: '1131px',
-  height: '930px',
+  height: '800px',
   backgroundColor: 'white',
 
   p: {

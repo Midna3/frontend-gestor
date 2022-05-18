@@ -9,7 +9,7 @@ export const info = css({
 export const schoolInfo = css({
   padding: '32px 25px',
   width: '566px',
-  height: '410px',
+  height: '330px',
   backgroundColor: 'white',
   borderRadius: '10px',
   display: 'flex',
@@ -26,7 +26,7 @@ export const schoolInfo = css({
     fontWeight: 500,
   },
   input: {
-    height: '50px',
+    height: '40px',
     width: '238px',
     paddingLeft: '10px',
     backgroundColor: '#F1F4FA',
@@ -63,7 +63,7 @@ export const schoolDataDescription = css({
 
   div: {
     width: '506px',
-    height: '50px',
+    height: '40px',
     backgroundColor: '#F1F4FA',
     borderRadius: '10px',
     color: '#858585',
@@ -73,6 +73,10 @@ export const schoolDataDescription = css({
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: '6px',
+  },
+
+  img: {
+    width: '20px',
   },
 });
 
@@ -84,12 +88,12 @@ export const circles = css({
 });
 
 export const idebCircle = css({
-  width: '45%',
+  width: '30%',
 });
 
 export const rating = css({
-  width: '106px',
-  height: '106px',
+  width: '100px',
+  height: '100px',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: '#EDEBFC',

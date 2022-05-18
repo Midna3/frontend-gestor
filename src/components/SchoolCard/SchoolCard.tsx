@@ -83,7 +83,7 @@ export const SchoolCard = (props: DataProp) => {
         </div>
       </div>
       <div className={schoolInfo({ variant: 'ideb' })}>
-        <p>IDEB</p>
+        <p style={{ marginLeft: '1.3rem' }}>IDEB</p>
         <div className={circles()}>
           <div className={idebCircle()}>
             <CircularProgressbarWithChildren
