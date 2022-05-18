@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
+import { api } from '../../services/api';
+import MapContext from '../../contexts/MapContext';
+import SearchContext from '../../contexts/SearchContext';
+
+import { GraphInfo } from '../../types/GraphInfo';
+
 import { CircleGraphBox } from '../../components/CircleGraphBox/CircleGraphBox';
 import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
 import { Map } from '../../components/Map/Map';
 import { info, enrolledStudents, map } from './style';
-import { useContext } from 'react';
-import MapContext from '../../contexts/MapContext';
-import { api } from '../../services/api';
-import { GraphInfo } from '../../types/GraphInfo';
-
 import graphIcon from '../../assets/icons/graph.png';
 
 export const HomePage = () => {
   const { regionState } = useContext(MapContext);
   const [infos, setInfos] = useState<GraphInfo | null>(null);
+
+  const { setSearchSecondSchool } = useContext(SearchContext);
+  setSearchSecondSchool(false);
 
   useEffect(() => {
     (async function () {
