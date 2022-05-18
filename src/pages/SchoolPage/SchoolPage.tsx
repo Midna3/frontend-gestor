@@ -112,11 +112,11 @@ export const SchoolPage = () => {
         />
       </div>
       <div className={statistics()}>
-        <h1>Estatísticas</h1>
+        <h2 style={{ marginTop: '1rem' }}>Estatísticas</h2>
         <div className={graph()}>
           <div style={{ width: '70%' }}>
             {graphicsData.map((data, index) => (
-              <Flex direction={'column'} gap={3} css={{ marginTop: '1rem' }}>
+              <Flex direction={'column'} gap={3} css={{ marginTop: '2rem' }}>
                 <h2>{graphicsLabels[index]}</h2>
                 <Line
                   key={index}
