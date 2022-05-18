@@ -4,7 +4,7 @@ export const container = css({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'start',
   gap: 100,
   padding: '50px 60px',
 });
@@ -14,7 +14,6 @@ export const statistics = css({
   padding: '20px',
   marginTop: '50px',
   width: '575px',
-  height: '400px',
   backgroundColor: 'white',
 
   p: {
