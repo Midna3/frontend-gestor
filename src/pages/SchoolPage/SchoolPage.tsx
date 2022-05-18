@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Chart as ChartJS, registerables } from 'chart.js';
+import SearchContext from '../../contexts/SearchContext';
 import { Line } from 'react-chartjs-2';
 
 import { api } from '../../services/api';
@@ -15,6 +16,9 @@ ChartJS.register(...registerables);
 
 export const SchoolPage = () => {
   const params = useParams();
+
+  const { setSearchSecondSchool } = useContext(SearchContext);
+  setSearchSecondSchool(false);
 
   const [infos, setInfos] = useState<GraphInfo | null>(null);
   const [graphicsData, setGraphicsData] = useState<number[][]>([[0, 0, 0]]);
@@ -88,7 +92,7 @@ export const SchoolPage = () => {
         <SchoolCard
           name={infos?.data.attributes.name || '----'}
           compare
-          inep={infos ? `#${infos?.data.attributes.inep}` : '----'}
+          inep={infos ? `${infos?.data.attributes.inep}` : '----'}
           phone={
             infos
               ? `(${
