@@ -10,10 +10,11 @@ export const container = css({
 });
 
 export const statistics = css({
+  overflowY: 'scroll',
   borderRadius: '10px',
-  padding: '32px 25px',
+  padding: '1rem 3rem',
   width: '1131px',
-  height: '930px',
+  height: '962px',
   backgroundColor: 'white',
 
   p: {
