@@ -12,6 +12,8 @@ export type GraphInfo = {
       docentes: number | null;
       year: number;
       adm: string;
+      country?: string;
+      region?: string;
       idebIniciais: {
         mean: number;
         projection: number;
