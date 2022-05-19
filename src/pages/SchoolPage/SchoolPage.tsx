@@ -92,7 +92,7 @@ export const SchoolPage = () => {
           compare
           inep={infos ? `${infos?.data.attributes.inep}` : '----'}
           phone={
-            infos
+            infos?.data.attributes.phone
               ? `(${
                   infos?.data.attributes.ddd
                 }) ${infos?.data.attributes.phone.slice(
