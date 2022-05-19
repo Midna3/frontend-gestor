@@ -50,7 +50,7 @@ export const SchoolCard = (props: DataProp) => {
         >
           <p>{name || '----'}</p>
           {compare && (
-            <Link to="/school/comparison/:schoolId">
+            <Link to={`/school/comparison/${inep}`}>
               <span>comparar</span>
             </Link>
           )}

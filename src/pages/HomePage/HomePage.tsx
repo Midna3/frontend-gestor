@@ -1,59 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
+import { api } from '../../services/api';
+import MapContext from '../../contexts/MapContext';
+import SearchContext from '../../contexts/SearchContext';
+
+import { GraphInfo } from '../../types/GraphInfo';
+
 import { CircleGraphBox } from '../../components/CircleGraphBox/CircleGraphBox';
 import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
 import { Map } from '../../components/Map/Map';
 import { info, enrolledStudents, map } from './style';
-import { useContext } from 'react';
-import MapContext from '../../contexts/MapContext';
-import { api } from '../../services/api';
-
 import graphIcon from '../../assets/icons/graph.png';
-
-type Infos = {
-  data: {
-    type: string;
-    id: number;
-    attributes: {
-      ied: {
-        meanCategory: string;
-        mean: number;
-      };
-      ird: {
-        meanCategory: string;
-        mean: number;
-      };
-      tdi: {
-        mean: number;
-      };
-      icg: {
-        meanCategory: string;
-        mean: number;
-      };
-      afd: {
-        meanCategory: string;
-        mean: number;
-      };
-      idebIniciais: {
-        mean: number;
-        projection: number;
-      };
-      idebFinais: {
-        mean: number;
-        projection: number;
-      };
-      year: number;
-      country?: string;
-      region?: string;
-    };
-  };
-};
 
 export const HomePage = () => {
   const { regionState } = useContext(MapContext);
-  const [infos, setInfos] = useState<Infos | null>(null);
+  const [infos, setInfos] = useState<GraphInfo | null>(null);
+
+  const { setSearchSecondSchool } = useContext(SearchContext);
 
   useEffect(() => {
+    setSearchSecondSchool(false);
     (async function () {
       let url =
         regionState === 'brazil'
@@ -64,10 +31,10 @@ export const HomePage = () => {
         const { data } = await api.get(url);
         setInfos(data);
       } catch (error) {
-        console.log('ERRO');
+        console.log(error);
       }
     })();
-  }, [regionState]);
+  }, [regionState, setSearchSecondSchool]);
 
   return (
     <Flex

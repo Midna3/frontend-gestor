@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import SearchContext from '../../contexts/SearchContext';
 import { api } from '../../services/api';
 
 import { Flex } from '../Flex/Flex';
@@ -20,6 +21,9 @@ type Response = {
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { searchSecondSchool, setSecondSchool, setSecondSchoolGraphicsData } =
+    useContext(SearchContext);
+
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
   const loadOptions = async (inputValue: string) => {
@@ -27,8 +31,50 @@ export const Header = () => {
     return response.data.data;
   };
 
-  const handleInputChange = (inputValue: string) => {
-    navigate(`/school/${inputValue}`);
+  const handleInputChange = async (inputValue: string) => {
+    if (!searchSecondSchool) {
+      navigate(`/school/${inputValue}`);
+    } else {
+      const { data } = await api.get(`panel/school/${inputValue}?year=2020`);
+      setSecondSchool(data);
+
+      const dataFrom2019 = await api.get(
+        `panel/school/${inputValue}?year=2019`
+      );
+
+      const dataFrom2018 = await api.get(
+        `panel/school/${inputValue}?year=2018`
+      );
+
+      const dataFrom2017 = await api.get(
+        `panel/school/${inputValue}?year=2017`
+      );
+
+      const ied = [
+        dataFrom2017.data.data.attributes.ied.mean,
+        dataFrom2018.data.data.attributes.ied.mean,
+        dataFrom2019.data.data.attributes.ied.mean,
+        data.data.attributes.ied.mean,
+      ];
+
+      const icg = [
+        dataFrom2017.data.data.attributes.icg.mean,
+        dataFrom2018.data.data.attributes.icg.mean,
+        dataFrom2019.data.data.attributes.icg.mean,
+        data.data.attributes.icg.mean,
+      ];
+
+      const afd = [
+        dataFrom2017.data.data.attributes.afd.mean,
+        dataFrom2018.data.data.attributes.afd.mean,
+        dataFrom2019.data.data.attributes.afd.mean,
+        data.data.attributes.afd.mean,
+      ];
+
+      const graphicsData = [ied, icg, afd];
+
+      setSecondSchoolGraphicsData(graphicsData);
+    }
   };
 
   return (
@@ -56,7 +102,11 @@ export const Header = () => {
           handleInputChange(option?.value as string);
           setSelectedOption(null);
         }}
-        placeholder="Pesquisar por escola..."
+        placeholder={
+          searchSecondSchool
+            ? 'Pesquisar por segunda escola...'
+            : 'Pesquisar por escola...'
+        }
         noOptionsMessage={() => 'Nenhum resultado encontrado'}
         loadingMessage={() => 'Pesquisando...'}
         styles={{
