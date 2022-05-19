@@ -24,7 +24,7 @@ export const DataCard = (props: DataProp) => {
         }}
       >
         <p style={{ fontWeight: 'bold' }}>{title}</p>
-        <p>{Number(data).toFixed(1)}</p>
+        <p>{data !== '--' ? Number(data).toFixed(1) : '--'}</p>
       </div>
     </div>
   );
