@@ -21,8 +21,13 @@ type Response = {
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { searchSecondSchool, setSecondSchool, setSecondSchoolGraphicsData } =
-    useContext(SearchContext);
+  const {
+    searchSecondSchool,
+    setSecondSchool,
+    setSecondSchoolGraphicsData,
+    secondSchoolDataFrom2019,
+    setSecondSchoolDataFrom2019,
+  } = useContext(SearchContext);
 
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
@@ -41,6 +46,7 @@ export const Header = () => {
       const dataFrom2019 = await api.get(
         `panel/school/${inputValue}?year=2019`
       );
+      setSecondSchoolDataFrom2019(dataFrom2019.data);
 
       const dataFrom2018 = await api.get(
         `panel/school/${inputValue}?year=2018`

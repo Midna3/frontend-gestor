@@ -20,6 +20,7 @@ export const SchoolComparison = () => {
     setSecondSchool,
     secondSchoolGraphicsData,
     setSecondSchoolGraphicsData,
+    secondSchoolDataFrom2019,
   } = useContext(SearchContext);
 
   const [infos, setInfos] = useState<GraphInfo | null>(null);
@@ -27,6 +28,7 @@ export const SchoolComparison = () => {
   const [graphicsLabels, setGraphicsLabels] = useState<string[]>([
     'Aguardando carregamento...',
   ]);
+  const [dataFrom2019, setDataFrom2019] = useState<GraphInfo | null>(null);
 
   useEffect(() => {
     setSearchSecondSchool(true);
@@ -43,6 +45,7 @@ export const SchoolComparison = () => {
         const dataFrom2019 = await api.get(
           `panel/school/${params.schoolId}?year=2019`
         );
+        setDataFrom2019(dataFrom2019.data);
 
         const dataFrom2018 = await api.get(
           `panel/school/${params.schoolId}?year=2018`
@@ -112,12 +115,14 @@ export const SchoolComparison = () => {
           adress={infos?.data.attributes.address || '----'}
           adm={infos?.data.attributes.adm || '----'}
           idebIniciais={{
-            mean: infos?.data.attributes.idebIniciais.mean || 0,
-            projection: infos?.data.attributes.idebIniciais.projection || 0,
+            mean: dataFrom2019?.data.attributes.idebIniciais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebIniciais.projection || 0,
           }}
           idebFinais={{
-            mean: infos?.data.attributes.idebFinais.mean || 0,
-            projection: infos?.data.attributes.idebFinais.projection || 0,
+            mean: dataFrom2019?.data.attributes.idebFinais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebFinais.projection || 0,
           }}
         />
         <div className={statistics()}>
@@ -180,14 +185,18 @@ export const SchoolComparison = () => {
           adress={secondSchool?.data.attributes.address || '----'}
           adm={secondSchool?.data.attributes.adm || '----'}
           idebIniciais={{
-            mean: secondSchool?.data.attributes.idebIniciais.mean || 0,
+            mean:
+              secondSchoolDataFrom2019?.data.attributes.idebIniciais.mean || 0,
             projection:
-              secondSchool?.data.attributes.idebIniciais.projection || 0,
+              secondSchoolDataFrom2019?.data.attributes.idebIniciais
+                .projection || 0,
           }}
           idebFinais={{
-            mean: secondSchool?.data.attributes.idebFinais.mean || 0,
+            mean:
+              secondSchoolDataFrom2019?.data.attributes.idebFinais.mean || 0,
             projection:
-              secondSchool?.data.attributes.idebFinais.projection || 0,
+              secondSchoolDataFrom2019?.data.attributes.idebFinais.projection ||
+              0,
           }}
         />
         <div className={statistics()}>

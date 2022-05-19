@@ -24,6 +24,7 @@ export const SchoolPage = () => {
   const [graphicsLabels, setGraphicsLabels] = useState<string[]>([
     'Aguardando carregamento...',
   ]);
+  const [dataFrom2019, setDataFrom2019] = useState<GraphInfo | null>(null);
 
   useEffect(() => {
     setSearchSecondSchool(false);
@@ -37,6 +38,7 @@ export const SchoolPage = () => {
         const dataFrom2019 = await api.get(
           `panel/school/${params.schoolId}?year=2019`
         );
+        setDataFrom2019(dataFrom2019.data);
 
         const dataFrom2018 = await api.get(
           `panel/school/${params.schoolId}?year=2018`
@@ -102,12 +104,14 @@ export const SchoolPage = () => {
           adress={infos?.data.attributes.address || '----'}
           adm={infos?.data.attributes.adm || '----'}
           idebIniciais={{
-            mean: infos?.data.attributes.idebIniciais.mean || 0,
-            projection: infos?.data.attributes.idebIniciais.projection || 0,
+            mean: dataFrom2019?.data.attributes.idebIniciais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebIniciais.projection || 0,
           }}
           idebFinais={{
-            mean: infos?.data.attributes.idebFinais.mean || 0,
-            projection: infos?.data.attributes.idebFinais.projection || 0,
+            mean: dataFrom2019?.data.attributes.idebFinais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebFinais.projection || 0,
           }}
         />
       </div>

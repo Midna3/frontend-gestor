@@ -8,6 +8,8 @@ type SearchContextData = {
   setSearchSecondSchool: (search: boolean) => void;
   secondSchoolGraphicsData: number[][];
   setSecondSchoolGraphicsData: (data: number[][]) => void;
+  secondSchoolDataFrom2019: GraphInfo | null;
+  setSecondSchoolDataFrom2019: (info: GraphInfo | null) => void;
 };
 
 type SearchContextProviderProps = {
@@ -24,6 +26,8 @@ export const SearchContextProvider = ({
   const [secondSchoolGraphicsData, setSecondSchoolGraphicsData] = useState<
     number[][]
   >([[0, 0, 0]]);
+  const [secondSchoolDataFrom2019, setSecondSchoolDataFrom2019] =
+    useState<GraphInfo | null>(null);
 
   return (
     <SearchContext.Provider
@@ -34,6 +38,8 @@ export const SearchContextProvider = ({
         setSearchSecondSchool,
         secondSchoolGraphicsData,
         setSecondSchoolGraphicsData,
+        secondSchoolDataFrom2019,
+        setSecondSchoolDataFrom2019,
       }}
     >
       {children}
