@@ -28,7 +28,6 @@ export const Header = () => {
 
   const loadOptions = async (inputValue: string) => {
     const response: Response = await api.get(`/home/schools/${inputValue}`);
-    console.log(response.data.data);
     return response.data.data;
   };
 

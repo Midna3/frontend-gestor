@@ -74,8 +74,6 @@ export const SchoolPage = () => {
           'Indicador de Adequação da Formação Docente',
         ];
 
-        console.log(graphicsData);
-
         setGraphicsData(graphicsData);
         setGraphicsLabels(graphicsLabels);
       } catch (error) {
