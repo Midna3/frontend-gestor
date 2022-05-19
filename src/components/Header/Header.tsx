@@ -1,36 +1,86 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import SearchContext from '../../contexts/SearchContext';
+import { api } from '../../services/api';
 
 import { Flex } from '../Flex/Flex';
 import AsyncSelect from 'react-select/async';
-import { Option, schoolOptions } from '../../mocks/ReactSelect';
 
 import dashboardIcon from '../../assets/icons/dashboard.png';
 
+type Option = {
+  readonly value: string;
+  readonly label: string;
+};
+
+type Response = {
+  readonly data: {
+    readonly data: Option[];
+  };
+};
+
 export const Header = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = React.useState<Option | null>(
-    null
-  );
+  const {
+    searchSecondSchool,
+    setSecondSchool,
+    setSecondSchoolGraphicsData,
+    secondSchoolDataFrom2019,
+    setSecondSchoolDataFrom2019,
+  } = useContext(SearchContext);
 
-  const filterColors = (inputValue: string) => {
-    return schoolOptions.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+
+  const loadOptions = async (inputValue: string) => {
+    const response: Response = await api.get(`/home/schools/${inputValue}`);
+    return response.data.data;
   };
 
-  const loadOptions = (
-    inputValue: string,
-    callback: (options: Option[]) => void
-  ) => {
-    setTimeout(() => {
-      callback(filterColors(inputValue));
-    }, 1000);
-  };
+  const handleInputChange = async (inputValue: string) => {
+    if (!searchSecondSchool) {
+      navigate(`/school/${inputValue}`);
+    } else {
+      const { data } = await api.get(`panel/school/${inputValue}?year=2020`);
+      setSecondSchool(data);
 
-  const handleInputChange = (newValue: string) => {
-    const inputValue = newValue.replace(/\W/g, '');
-    navigate(`/school/${inputValue}`);
+      const dataFrom2019 = await api.get(
+        `panel/school/${inputValue}?year=2019`
+      );
+      setSecondSchoolDataFrom2019(dataFrom2019.data);
+
+      const dataFrom2018 = await api.get(
+        `panel/school/${inputValue}?year=2018`
+      );
+
+      const dataFrom2017 = await api.get(
+        `panel/school/${inputValue}?year=2017`
+      );
+
+      const ied = [
+        dataFrom2017.data.data.attributes.ied.mean,
+        dataFrom2018.data.data.attributes.ied.mean,
+        dataFrom2019.data.data.attributes.ied.mean,
+        data.data.attributes.ied.mean,
+      ];
+
+      const icg = [
+        dataFrom2017.data.data.attributes.icg.mean,
+        dataFrom2018.data.data.attributes.icg.mean,
+        dataFrom2019.data.data.attributes.icg.mean,
+        data.data.attributes.icg.mean,
+      ];
+
+      const afd = [
+        dataFrom2017.data.data.attributes.afd.mean,
+        dataFrom2018.data.data.attributes.afd.mean,
+        dataFrom2019.data.data.attributes.afd.mean,
+        data.data.attributes.afd.mean,
+      ];
+
+      const graphicsData = [ied, icg, afd];
+
+      setSecondSchoolGraphicsData(graphicsData);
+    }
   };
 
   return (
@@ -53,13 +103,16 @@ export const Header = () => {
       <AsyncSelect
         cacheOptions
         loadOptions={loadOptions}
-        defaultOptions
         value={selectedOption}
         onChange={(option: Option | null) => {
           handleInputChange(option?.value as string);
           setSelectedOption(null);
         }}
-        placeholder="Pesquisar por escola..."
+        placeholder={
+          searchSecondSchool
+            ? 'Pesquisar por segunda escola...'
+            : 'Pesquisar por escola...'
+        }
         noOptionsMessage={() => 'Nenhum resultado encontrado'}
         loadingMessage={() => 'Pesquisando...'}
         styles={{

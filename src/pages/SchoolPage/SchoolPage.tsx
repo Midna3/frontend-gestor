@@ -1,185 +1,162 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
-import { LineChart } from '../../components/LineChart/LineChart';
+import { Chart as ChartJS, registerables } from 'chart.js';
+import SearchContext from '../../contexts/SearchContext';
+import { Line } from 'react-chartjs-2';
+
+import { api } from '../../services/api';
+
+import { GraphInfo } from '../../types/GraphInfo';
+
+import { SchoolCard } from '../../components/SchoolCard/SchoolCard';
 import 'react-circular-progressbar/dist/styles.css';
-import Location from '../../assets/icons/location.png';
-
-import {
-  container,
-  statistics,
-  graph,
-  info,
-  schoolInfo,
-  schoolData,
-  schoolDataDescription,
-  circles,
-  idebCircle,
-  rating,
-} from './style';
-
-import { Data } from '../../mocks/Data';
+import { container, statistics, graph } from './style';
+import { Flex } from '../../components/Flex/Flex';
+ChartJS.register(...registerables);
 
 export const SchoolPage = () => {
   const params = useParams();
 
-  const [data, setData] = useState({
-    labels: Data.matriculados.map((matriculado) => matriculado.year),
-    datasets: [
-      {
-        label: 'Matriculas',
-        data: Data.matriculados.map((matriculado) => matriculado.amount),
-        backgroundColor: '#2D2FF0',
-        lineTension: 0.5,
-        borderColor: '#2D2FF0',
-        pointBorderColor: '#2D2FF0',
-        pointBorderWidth: 5,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: '#2D2FF0',
-        pointHoverBorderColor: '#2D2FF0',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-      },
-      {
-        label: 'Docentes',
-        data: Data.docentes.map((docente) => docente.amount),
-        backgroundColor: '#E80054',
-        lineTension: 0.5,
-        borderColor: '#E80054',
-        pointBorderColor: '#E80054',
-        pointBorderWidth: 5,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: '#E80054',
-        pointHoverBorderColor: '#E80054',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-      },
-    ],
-  });
+  const { setSearchSecondSchool } = useContext(SearchContext);
 
-  const [valueStart, setValueStart] = useState(0);
-  const [valueFinish, setValueFinish] = useState(0);
-  const max = 10;
+  const [infos, setInfos] = useState<GraphInfo | null>(null);
+  const [graphicsData, setGraphicsData] = useState<number[][]>([[0, 0, 0]]);
+  const [graphicsLabels, setGraphicsLabels] = useState<string[]>([
+    'Aguardando carregamento...',
+  ]);
+  const [dataFrom2019, setDataFrom2019] = useState<GraphInfo | null>(null);
 
   useEffect(() => {
-    setValueStart(5.9);
-    setValueFinish(10);
-    console.log(params.schoolId);
-  }, []);
+    setSearchSecondSchool(false);
+    (async function () {
+      try {
+        const { data } = await api.get(
+          `panel/school/${params.schoolId}?year=2020`
+        );
+        setInfos(data);
+
+        const dataFrom2019 = await api.get(
+          `panel/school/${params.schoolId}?year=2019`
+        );
+        setDataFrom2019(dataFrom2019.data);
+
+        const dataFrom2018 = await api.get(
+          `panel/school/${params.schoolId}?year=2018`
+        );
+
+        const dataFrom2017 = await api.get(
+          `panel/school/${params.schoolId}?year=2017`
+        );
+
+        const ied = [
+          dataFrom2017.data.data.attributes.ied.mean,
+          dataFrom2018.data.data.attributes.ied.mean,
+          dataFrom2019.data.data.attributes.ied.mean,
+          data.data.attributes.ied.mean,
+        ];
+
+        const icg = [
+          dataFrom2017.data.data.attributes.icg.mean,
+          dataFrom2018.data.data.attributes.icg.mean,
+          dataFrom2019.data.data.attributes.icg.mean,
+          data.data.attributes.icg.mean,
+        ];
+
+        const afd = [
+          dataFrom2017.data.data.attributes.afd.mean,
+          dataFrom2018.data.data.attributes.afd.mean,
+          dataFrom2019.data.data.attributes.afd.mean,
+          data.data.attributes.afd.mean,
+        ];
+
+        const graphicsData = [ied, icg, afd];
+        const graphicsLabels = [
+          'Índice de Esforço Docente',
+          'Complexidade de Gestão Escolar',
+          'Indicador de Adequação da Formação Docente',
+        ];
+
+        setGraphicsData(graphicsData);
+        setGraphicsLabels(graphicsLabels);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [params.schoolId, setSearchSecondSchool]);
 
   return (
     <div className={container()} style={{ backgroundColor: '#F1F4FA' }}>
-      <div className={info()}>
-        <div className={schoolInfo()}>
-          <p>Escola Manoel Limão</p>
-          <div className={schoolData()}>
-            <div className={schoolDataDescription()}>
-              <label>Código INEP</label>
-              <input type="text" value="#876370" disabled />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Contato</label>
-              <input type="text" value="(81) 91628-1728" disabled />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Endereço</label>
-              <div>
-                Esquina com a Rua do Vazio
-                <img src={Location} alt="Icone de Endereço" width={20} />
-              </div>
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Adm</label>
-              <input type="text" value="Estadual" disabled />
-            </div>
-            <div className={schoolDataDescription()}>
-              <label>Modalidade</label>
-              <input type="text" value="Integral" disabled />
-            </div>
-          </div>
-        </div>
-        <div className={schoolInfo({ variant: 'ideb' })}>
-          <p>IDEB</p>
-          <div className={circles()}>
-            <div className={idebCircle()}>
-              <CircularProgressbarWithChildren
-                value={valueStart}
-                maxValue={max}
-                strokeWidth={12}
-                styles={{
-                  text: {
-                    fontFamily: 'sans-serif',
-                    fill: '#3A36DB',
-                    fontWeight: 500,
-                  },
-                  trail: { stroke: '#fff' },
-                  path: {
-                    stroke: '#3A36DB',
-                  },
-                }}
-              >
-                <div className={rating()}>
-                  5,9 <span>Meta 5,5</span>
-                </div>
-              </CircularProgressbarWithChildren>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  color: '#06152B',
-                  marginTop: 10,
-                }}
-              >
-                Anos
-                <br />
-                Iniciais
-              </p>
-            </div>
-            <div className={idebCircle()}>
-              <CircularProgressbarWithChildren
-                value={valueFinish}
-                maxValue={max}
-                strokeWidth={12}
-                styles={{
-                  text: {
-                    fontFamily: 'sans-serif',
-                    fill: '#3A36DB',
-                    fontWeight: 500,
-                  },
-                  trail: { stroke: '#fff' },
-                  path: {
-                    stroke: '#3A36DB',
-                  },
-                }}
-              >
-                <div className={rating()}>
-                  10 <span>Meta 8,5</span>
-                </div>
-              </CircularProgressbarWithChildren>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  color: '#06152B',
-                  marginTop: 10,
-                }}
-              >
-                Anos
-                <br />
-                Finais
-              </p>
-            </div>
-          </div>
-        </div>
+      <div>
+        <SchoolCard
+          name={infos?.data.attributes.name || '----'}
+          compare
+          inep={infos ? `${infos?.data.attributes.inep}` : '----'}
+          phone={
+            infos?.data.attributes.phone
+              ? `(${
+                  infos?.data.attributes.ddd
+                }) ${infos?.data.attributes.phone.slice(
+                  0,
+                  4
+                )}-${infos?.data.attributes.phone.slice(4, 8)}`
+              : '----'
+          }
+          adress={infos?.data.attributes.address || '----'}
+          adm={infos?.data.attributes.adm || '----'}
+          idebIniciais={{
+            mean: dataFrom2019?.data.attributes.idebIniciais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebIniciais.projection || 0,
+          }}
+          idebFinais={{
+            mean: dataFrom2019?.data.attributes.idebFinais.mean || 0,
+            projection:
+              dataFrom2019?.data.attributes.idebFinais.projection || 0,
+          }}
+        />
       </div>
       <div className={statistics()}>
-        <p>Estatisticas</p>
-        <h1>Matriculas e Docentes</h1>
+        <h2 style={{ marginTop: '1rem' }}>Estatísticas</h2>
         <div className={graph()}>
-          <div style={{ width: '80%' }}>
-            <LineChart Data={data} />
+          <div style={{ width: '70%' }}>
+            {graphicsData.map((data, index) => (
+              <Flex
+                key={index}
+                direction={'column'}
+                gap={3}
+                css={{ marginTop: '2rem' }}
+              >
+                <h2>{graphicsLabels[index]}</h2>
+                <Line
+                  data={{
+                    labels: [2017, 2018, 2019, 2020],
+                    datasets: [
+                      {
+                        label: '',
+                        data: data,
+                        backgroundColor: '#2D2FF0',
+                        borderColor: '#2D2FF0',
+                        pointBorderColor: '#2D2FF0',
+                        pointBorderWidth: 5,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: '#2D2FF0',
+                        pointHoverBorderColor: '#2D2FF0',
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                  }}
+                />
+              </Flex>
+            ))}
           </div>
         </div>
       </div>

@@ -1,78 +1,40 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
+import { api } from '../../services/api';
+import MapContext from '../../contexts/MapContext';
+import SearchContext from '../../contexts/SearchContext';
+
+import { GraphInfo } from '../../types/GraphInfo';
+
 import { CircleGraphBox } from '../../components/CircleGraphBox/CircleGraphBox';
 import { DataCard } from '../../components/DataCard/DataCard';
 import { Flex } from '../../components/Flex/Flex';
 import { Map } from '../../components/Map/Map';
 import { info, enrolledStudents, map } from './style';
-import { useContext } from 'react';
-import MapContext from '../../contexts/MapContext';
-import { api } from '../../services/api';
-
-import { HomeData } from '../../mocks/HomeData';
-
-type Infos = {
-  data: {
-    type: string;
-    id: number;
-    attributes: {
-      ied: {
-        meanCategory: string;
-        mean: number;
-      };
-      ird: {
-        meanCategory: string;
-        mean: number;
-      };
-      tdi: {
-        mean: number;
-      };
-      icg: {
-        meanCategory: string;
-        mean: number;
-      };
-      afd: {
-        meanCategory: string;
-        mean: number;
-      };
-      idebIniciais: {
-        mean: number;
-        projection: number;
-      };
-      idebFinais: {
-        mean: number;
-        projection: number;
-      };
-      year: number;
-      country?: string;
-      region?: string;
-    };
-  };
-};
+import graphIcon from '../../assets/icons/graph.png';
 
 export const HomePage = () => {
   const { regionState } = useContext(MapContext);
-  const [infos, setInfos] = useState<Infos | null>(null);
+  const [infos, setInfos] = useState<GraphInfo | null>(null);
+
+  const { setSearchSecondSchool } = useContext(SearchContext);
 
   useEffect(() => {
+    setSearchSecondSchool(false);
     (async function () {
       let url =
         regionState === 'brazil'
           ? `home/country/${regionState}`
           : `home/region/${regionState}`;
 
-      console.log(url);
       try {
         const { data } = await api.get(url);
-        setInfos(HomeData);
-        console.log(HomeData);
+        setInfos(data);
       } catch (error) {
-        console.log('ERRO');
-      } finally {
-        setInfos(HomeData);
-        console.log(HomeData);
+        console.log(error);
       }
     })();
-  }, [regionState]);
+  }, [regionState, setSearchSecondSchool]);
 
   return (
     <Flex
@@ -84,8 +46,16 @@ export const HomePage = () => {
       <div className={info()}>
         <div className="infoBox">
           <div className={enrolledStudents()}>
-            <p>Estudantes matriculados esse ano</p>
-            <h1>16.431,430</h1>
+            <h1>{`${
+              infos?.data.attributes.country !== undefined
+                ? infos?.data.attributes.country
+                : ''
+            }`}</h1>
+            <h1>{`${
+              infos?.data.attributes.region !== undefined
+                ? infos?.data.attributes.region
+                : ''
+            }`}</h1>
           </div>
         </div>
 
@@ -93,6 +63,7 @@ export const HomePage = () => {
           <DataCard
             background="#8676FF"
             title="Ideb Anos Iniciais"
+            imageUrl={graphIcon}
             data={
               infos ? String(infos?.data.attributes.idebIniciais.mean) : '--'
             }
@@ -100,16 +71,19 @@ export const HomePage = () => {
           <DataCard
             background="#8676FF"
             title="Ideb Anos Finais"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.idebFinais.mean) : '--'}
           />
           <DataCard
             background="#66C8FF"
             title="Distorção idade série"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.tdi.mean) : '--'}
           />
           <DataCard
             background="#FF9066"
             title="Complexidade gestão escolar"
+            imageUrl={graphIcon}
             data={infos ? String(infos?.data.attributes.icg.mean) : '--'}
           />
         </div>
