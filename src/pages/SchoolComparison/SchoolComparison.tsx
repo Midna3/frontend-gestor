@@ -21,26 +21,33 @@ export const SchoolComparison = () => {
     secondSchoolGraphicsData,
     setSecondSchoolGraphicsData,
   } = useContext(SearchContext);
-  setSearchSecondSchool(true);
 
   const [infos, setInfos] = useState<GraphInfo | null>(null);
   const [graphicsData, setGraphicsData] = useState<number[][]>([[0, 0, 0]]);
-  const [graphicsLabels, setGraphicsLabels] = useState<string[]>(['0']);
+  const [graphicsLabels, setGraphicsLabels] = useState<string[]>([
+    'Aguardando carregamento...',
+  ]);
 
   useEffect(() => {
+    setSearchSecondSchool(true);
     setSecondSchool(null);
     setSecondSchoolGraphicsData([[0, 0, 0]]);
 
     (async function () {
       try {
         const { data } = await api.get(
-          `panel/school/${params.schoolId}?year=2019`
+          `panel/school/${params.schoolId}?year=2020`
         );
         setInfos(data);
+
+        const dataFrom2019 = await api.get(
+          `panel/school/${params.schoolId}?year=2019`
+        );
 
         const dataFrom2018 = await api.get(
           `panel/school/${params.schoolId}?year=2018`
         );
+
         const dataFrom2017 = await api.get(
           `panel/school/${params.schoolId}?year=2017`
         );
@@ -48,38 +55,27 @@ export const SchoolComparison = () => {
         const ied = [
           dataFrom2017.data.data.attributes.ied.mean,
           dataFrom2018.data.data.attributes.ied.mean,
+          dataFrom2019.data.data.attributes.ied.mean,
           data.data.attributes.ied.mean,
-        ];
-
-        const ird = [
-          dataFrom2017.data.data.attributes.ird.mean,
-          dataFrom2018.data.data.attributes.ird.mean,
-          data.data.attributes.ird.mean,
-        ];
-
-        const tdi = [
-          dataFrom2017.data.data.attributes.tdi.mean,
-          dataFrom2018.data.data.attributes.tdi.mean,
-          data.data.attributes.tdi.mean,
         ];
 
         const icg = [
           dataFrom2017.data.data.attributes.icg.mean,
           dataFrom2018.data.data.attributes.icg.mean,
+          dataFrom2019.data.data.attributes.icg.mean,
           data.data.attributes.icg.mean,
         ];
 
         const afd = [
           dataFrom2017.data.data.attributes.afd.mean,
           dataFrom2018.data.data.attributes.afd.mean,
+          dataFrom2019.data.data.attributes.afd.mean,
           data.data.attributes.afd.mean,
         ];
 
-        const graphicsData = [ied, ird, tdi, icg, afd];
+        const graphicsData = [ied, icg, afd];
         const graphicsLabels = [
           'Índice de Esforço Docente',
-          'Indicador da Regularidade do Corpo Docente',
-          'Distorção idade série',
           'Complexidade de Gestão Escolar',
           'Indicador de Adequação da Formação Docente',
         ];
@@ -90,7 +86,12 @@ export const SchoolComparison = () => {
         console.log(error);
       }
     })();
-  }, [params.schoolId]);
+  }, [
+    params.schoolId,
+    setSearchSecondSchool,
+    setSecondSchool,
+    setSecondSchoolGraphicsData,
+  ]);
 
   return (
     <div className={container()} style={{ backgroundColor: '#F1F4FA' }}>
@@ -122,12 +123,16 @@ export const SchoolComparison = () => {
         <div className={statistics()}>
           <p>Estatistícas</p>
           {graphicsData.map((data, index) => (
-            <Flex direction={'column'} gap={3} css={{ marginTop: '2rem' }}>
+            <Flex
+              key={index}
+              direction={'column'}
+              gap={3}
+              css={{ marginTop: '2rem' }}
+            >
               <h2>{graphicsLabels[index]}</h2>
               <Line
-                key={index}
                 data={{
-                  labels: [2017, 2018, 2019],
+                  labels: [2017, 2018, 2019, 2020],
                   datasets: [
                     {
                       label: '',
@@ -188,12 +193,16 @@ export const SchoolComparison = () => {
         <div className={statistics()}>
           <p>Estatistícas</p>
           {secondSchoolGraphicsData.map((data, index) => (
-            <Flex direction={'column'} gap={3} css={{ marginTop: '2rem' }}>
+            <Flex
+              key={index}
+              direction={'column'}
+              gap={3}
+              css={{ marginTop: '2rem' }}
+            >
               <h2>{graphicsLabels[index]}</h2>
               <Line
-                key={index}
                 data={{
-                  labels: [2017, 2018, 2019],
+                  labels: [2017, 2018, 2019, 2020],
                   datasets: [
                     {
                       label: '',

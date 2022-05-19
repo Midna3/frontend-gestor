@@ -28,6 +28,7 @@ export const Header = () => {
 
   const loadOptions = async (inputValue: string) => {
     const response: Response = await api.get(`/home/schools/${inputValue}`);
+    console.log(response.data.data);
     return response.data.data;
   };
 
@@ -35,12 +36,17 @@ export const Header = () => {
     if (!searchSecondSchool) {
       navigate(`/school/${inputValue}`);
     } else {
-      const { data } = await api.get(`panel/school/${inputValue}?year=2019`);
+      const { data } = await api.get(`panel/school/${inputValue}?year=2020`);
       setSecondSchool(data);
+
+      const dataFrom2019 = await api.get(
+        `panel/school/${inputValue}?year=2019`
+      );
 
       const dataFrom2018 = await api.get(
         `panel/school/${inputValue}?year=2018`
       );
+
       const dataFrom2017 = await api.get(
         `panel/school/${inputValue}?year=2017`
       );
@@ -48,34 +54,25 @@ export const Header = () => {
       const ied = [
         dataFrom2017.data.data.attributes.ied.mean,
         dataFrom2018.data.data.attributes.ied.mean,
+        dataFrom2019.data.data.attributes.ied.mean,
         data.data.attributes.ied.mean,
-      ];
-
-      const ird = [
-        dataFrom2017.data.data.attributes.ird.mean,
-        dataFrom2018.data.data.attributes.ird.mean,
-        data.data.attributes.ird.mean,
-      ];
-
-      const tdi = [
-        dataFrom2017.data.data.attributes.tdi.mean,
-        dataFrom2018.data.data.attributes.tdi.mean,
-        data.data.attributes.tdi.mean,
       ];
 
       const icg = [
         dataFrom2017.data.data.attributes.icg.mean,
         dataFrom2018.data.data.attributes.icg.mean,
+        dataFrom2019.data.data.attributes.icg.mean,
         data.data.attributes.icg.mean,
       ];
 
       const afd = [
         dataFrom2017.data.data.attributes.afd.mean,
         dataFrom2018.data.data.attributes.afd.mean,
+        dataFrom2019.data.data.attributes.afd.mean,
         data.data.attributes.afd.mean,
       ];
 
-      const graphicsData = [ied, ird, tdi, icg, afd];
+      const graphicsData = [ied, icg, afd];
 
       setSecondSchoolGraphicsData(graphicsData);
     }

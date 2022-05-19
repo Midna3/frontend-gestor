@@ -18,9 +18,9 @@ export const HomePage = () => {
   const [infos, setInfos] = useState<GraphInfo | null>(null);
 
   const { setSearchSecondSchool } = useContext(SearchContext);
-  setSearchSecondSchool(false);
 
   useEffect(() => {
+    setSearchSecondSchool(false);
     (async function () {
       let url =
         regionState === 'brazil'
@@ -34,7 +34,7 @@ export const HomePage = () => {
         console.log(error);
       }
     })();
-  }, [regionState]);
+  }, [regionState, setSearchSecondSchool]);
 
   return (
     <Flex
