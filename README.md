@@ -4,17 +4,21 @@ https://github.com/Midna3/frontend-gestor/assets/45675035/c23d01aa-ccd8-4c36-ac4
 
 O projeto _FrontEnd Gestor_ é um site que permite a visualização de dados educacionais consumidos da _API Gestor_, que contém diversos dados abertos sobre a educação brasileira.
 
-## Justificativa
-
-Baseada em uma arquitetura de _Single Page Application_, desenvolvido utilizando _React_ e _TypeScript_, o frontend do projeto busca trazer uma experiência de uso moderna e boa interface.
-
 ## Descrição
 
 Em sua totalidade, o projeto busca desenvolver ferramentas que auxiliem na gestão escolar a nível do Ensino Fundamental (anos iniciais e finais) através de dados abertos sobre a educação brasileira. Especificamente, o projeto tem como objetivo permitir que gestores acessem indícies educacionais e informações da sua escola através de ferramentas de _visualização de dados_, permitindo que esses dados facilitem a tomada de decisões para melhoria da gestão escolar.
 
+## Tecnologias utilizadas
+
+- TypeScript
+- React
+- Radix UI: utilização de componentes customizáveis
+- Stitches: estilização CSS-in-JS
+- Chart.js: para apresentação de gráficos
+
 # Projeto(s) Relacionado(s)
 
-- {Título do projeto back-end}: API que dispõe as informações mostradas aqui
+- [API Gestor](https://github.com/Midna3/api-gestor): API que dispõe as informações mostradas aqui
 
 # Equipe 💼
 
