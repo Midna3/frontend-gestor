@@ -1,6 +1,8 @@
+https://github.com/Midna3/frontend-gestor/assets/45675035/c23d01aa-ccd8-4c36-ac4a-30e550c2ac89
+
 # FrontEnd Gestor
 
-O projeto _FrontEnd Gestor_ é uma site que permite a visualização de dados educacionais consumidos da _API Gestor_, que contém diversos dados abertos sobre a educação brasileira.
+O projeto _FrontEnd Gestor_ é um site que permite a visualização de dados educacionais consumidos da _API Gestor_, que contém diversos dados abertos sobre a educação brasileira.
 
 ## Justificativa
 
